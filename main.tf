@@ -14,7 +14,7 @@ resource "aws_launch_configuration" "launch_config" {
   instance_type = "${var.instance_type}"
   iam_instance_profile = "${var.iam_instance_profile}"
   key_name = "${var.key_name}"
-  security_groups = ["${var.security_group}"]
+  security_groups = ["${var.security_groups}"]
   user_data = "${file(var.user_data)}"
 }
 
@@ -25,8 +25,8 @@ resource "aws_autoscaling_group" "main_asg" {
   name = "${var.asg_name}"
 
   # The chosen availability zones *must* match the AZs the VPC subnets are tied to.
-  availability_zones = ["${split(",", var.availability_zones)}"]
-  vpc_zone_identifier = ["${split(",", var.vpc_zone_subnets)}"]
+  availability_zones = ["${var.availability_zones}"]
+  vpc_zone_identifier = ["${var.vpc_zone_subnets}"]
 
   # Uses the ID from the launch config created above
   launch_configuration = "${aws_launch_configuration.launch_config.id}"
@@ -38,5 +38,11 @@ resource "aws_autoscaling_group" "main_asg" {
   health_check_grace_period = "${var.health_check_grace_period}"
   health_check_type = "${var.health_check_type}"
 
-  load_balancers = ["${split(",", var.load_balancer_names)}"]
+  load_balancers = ["${var.load_balancer_names}"]
+
+  tag = {
+    key = "Name"
+    value = "${var.tag_name}"
+    propagate_at_launch = true
+  }
 }
