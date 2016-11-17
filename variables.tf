@@ -76,3 +76,8 @@ variable "vpc_zone_subnets" {
 }
 
 variable "tag_name" {}
+
+variable "instance_monitoring" {
+  description = "Enable/Disable detailed instance monitoring"
+  default = false
+}
