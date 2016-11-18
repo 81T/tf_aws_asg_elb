@@ -81,3 +81,10 @@ variable "instance_monitoring" {
   description = "Enable/Disable detailed instance monitoring"
   default = false
 }
+
+variable "asg_metrics" {
+  // See link for metrics: http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/as-metricscollected.html
+  description = "A list of metrics to collect"
+  type = "list"
+  default = []
+}
